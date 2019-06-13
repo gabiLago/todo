@@ -4,9 +4,9 @@
 ![Swift Version](https://img.shields.io/badge/kotlin-1.3.31-green.svg)
 
 ## DESCRIPTION
-###TODO is an app to note down and track todo tasks.
+### TODO is an app to note down and track todo tasks.
 ### Task items will have a content and a date. It can be set as prioritary and as finished.
-### You can add, edit and delete items.
+### Items can be added, edited and deleted.
 
 
 ## NOTES ON THE EXERCISE
@@ -25,6 +25,8 @@ This is an exercice for the 8th Mobile Development Bootcamp from KeepCoding.
 5. **Implementar Dagger en lugar de Koin**		 
 6. **Añadir subtareas dentro de la ventana de detalle de una tarea**	 
 	
+## COMMENTS
+* I´ve used git-flow to develop the project.
 
 ## DEPENDENCIES
 

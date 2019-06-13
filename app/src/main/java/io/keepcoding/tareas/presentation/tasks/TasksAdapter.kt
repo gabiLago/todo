@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
 import kotlinx.android.synthetic.main.item_task.view.*
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+import java.util.*
+
 
 class TasksAdapter(
     private val onFinished: (task: Task) -> Unit
@@ -33,7 +37,24 @@ class TasksAdapter(
 
         fun bind(task: Task) {
             with (itemView) {
+
                 cardContentText.text = task.content
+
+
+                val createdAtDate = task.createdAt
+                val formatter = DateTimeFormatter
+                    .ofPattern("dd-MM-yy")
+                    .withLocale( Locale.FRANCE )
+                    .withZone( ZoneId.of("UTC"))
+                cardCreatedAtDate.text = formatter.format(createdAtDate)
+
+
+                val imgHighPriorityOn = R.drawable.ic_star_on
+
+                if(task.isHighPriority) {
+                    cardHighPriority.setImageResource(imgHighPriorityOn)
+                }
+
 
                 taskFinishedCheck.isChecked = task.isFinished
 
@@ -52,6 +73,8 @@ class TasksAdapter(
                         removeStrikeThrough(cardContentText, task.content, animate = true)
                     }
                 }
+
+
             }
         }
 
