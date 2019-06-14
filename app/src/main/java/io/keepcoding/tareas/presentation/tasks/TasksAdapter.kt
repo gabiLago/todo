@@ -20,8 +20,11 @@ import java.util.*
 
 
 class TasksAdapter(
+
     private val onFinished: (task: Task) -> Unit
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
+
+    lateinit var itemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,12 +36,32 @@ class TasksAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    interface OnItemClickListener {
+        fun onItemClick(view: View, task: Task)
+    }
+
+    fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
+        this.itemClickListener = itemClickListener
+    }
+
+
+    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
+        init {
+            itemView.setOnClickListener(this)
+        }
+
+
+        override fun onClick(view: View) = itemClickListener.onItemClick(itemView, getItem(adapterPosition))
+
+
+
 
         fun bind(task: Task) {
             with (itemView) {
 
                 cardContentText.text = task.content
+
 
 
                 val createdAtDate = task.createdAt
@@ -75,7 +98,10 @@ class TasksAdapter(
                 }
 
 
+
             }
+
+
         }
 
         private fun applyStrikeThrough(view: TextView, content: String, animate: Boolean = false) {
@@ -115,6 +141,10 @@ class TasksAdapter(
             }
         }
 
+
+
     }
+
+
 
 }
