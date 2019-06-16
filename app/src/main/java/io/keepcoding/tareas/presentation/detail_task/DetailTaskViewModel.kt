@@ -15,16 +15,23 @@ class DetailTaskViewModel(
     private val dispatcherFactory: DispatcherFactory
 ) : BaseViewModel(dispatcherFactory) {
 
-    val tasksState = MutableLiveData<Task>()
+    val taskState = MutableLiveData<Task>()
 
 
     fun loadTask(id: Long) {
         launch {
 
             val result = withContext(dispatcherFactory.getIO()) { taskRepository.getTaskById(id) }
-            tasksState.value = result
+            taskState.value = result
 
         }
 
+    }
+
+    fun toggleFinished(task: Task) {
+        val newTask = task.copy(isFinished = !task.isFinished)
+        launch(dispatcherFactory.getIO()) {
+            taskRepository.updateTask(newTask)
+        }
     }
 }

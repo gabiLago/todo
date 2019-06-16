@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,27 +56,23 @@ class TasksAdapter(
         override fun onClick(view: View) = itemClickListener.onItemClick(itemView, getItem(adapterPosition))
 
 
-
-
         fun bind(task: Task) {
-            with (itemView) {
+            with(itemView) {
 
                 cardContentText.text = task.content
 
 
-
-                val createdAtDate = task.createdAt
                 val formatter = DateTimeFormatter
                     .ofPattern("dd-MM-yy")
-                    .withLocale( Locale.FRANCE )
-                    .withZone( ZoneId.of("UTC"))
-                cardCreatedAtDate.text = formatter.format(createdAtDate)
+                    .withZone(ZoneId.of("UTC"))
+
+                cardCreatedAtDate.text = formatter.format(task.createdAt)
 
 
                 val imgHighPriorityOn = R.drawable.ic_star_on
 
-                if(task.isHighPriority) {
-                    cardHighPriority.setImageResource(imgHighPriorityOn)
+                if (task.isHighPriority) {
+                    cardIsHighPriority.setImageResource(imgHighPriorityOn)
                 }
 
 
@@ -96,7 +93,6 @@ class TasksAdapter(
                         removeStrikeThrough(cardContentText, task.content, animate = true)
                     }
                 }
-
 
 
             }
@@ -127,7 +123,7 @@ class TasksAdapter(
             val span = SpannableString(content)
             val spanStrike = StrikethroughSpan()
 
-            if(animate) {
+            if (animate) {
                 ValueAnimator.ofInt(content.length, 0).apply {
                     duration = 300
                     interpolator = FastOutSlowInInterpolator()
@@ -142,9 +138,7 @@ class TasksAdapter(
         }
 
 
-
     }
-
 
 
 }

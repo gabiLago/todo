@@ -1,14 +1,12 @@
 package io.keepcoding.tareas.presentation.tasks
 
-import android.content.ClipData.newIntent
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +36,6 @@ class TasksFragment : Fragment() {
             intent.putExtra("id", task.id.toString() )
             startActivity(intent)
 
-            //Toast.makeText(view.context, "clicked " + task.id, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -52,6 +49,7 @@ class TasksFragment : Fragment() {
         bindState()
         adapter.setOnItemClickListener(onItemClickListener)
     }
+
 
     private fun setUpRecycler() {
         with (tasksRecycler) {

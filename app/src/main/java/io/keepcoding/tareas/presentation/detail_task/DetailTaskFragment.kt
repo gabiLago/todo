@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
-import kotlinx.android.synthetic.main.activity_detail_task.*
+import io.keepcoding.util.extensions.observe
+import kotlinx.android.synthetic.main.fragment_detail_task.*
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
+
 
 class DetailTaskFragment : Fragment() {
 
@@ -24,12 +28,41 @@ class DetailTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments?.getString("id", "")
+        detailTaskViewModel.loadTask(id!!.toLong())
 
-        val getTask = detailTaskViewModel.loadTask(id!!.toLong())
+        bindState()
 
-        detailContent.text = getTask.content
     }
 
+    private fun bindState() {
+        with(detailTaskViewModel) {
+
+            observe(taskState) {
+                onTaskLoaded(it)
+            }
+        }
+    }
+
+    private fun onTaskLoaded(task: Task) {
+
+        val formatter = DateTimeFormatter
+            .ofPattern("dd-MM-yy")
+            .withZone(ZoneId.of("UTC"))
+
+        with(task) {
+            detailCreatedAt.text = formatter.format(createdAt)
+            detailContent.text = content
+            detailIsFinished.isChecked = isFinished
+            }
+
+            detailIsFinished.setOnClickListener {
+
+            detailTaskViewModel.toggleFinished(task)
+
+
+        }
+
+    }
 
 
 }

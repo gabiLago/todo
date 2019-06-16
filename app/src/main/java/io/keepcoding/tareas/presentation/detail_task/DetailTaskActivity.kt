@@ -5,8 +5,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import io.keepcoding.tareas.R
-import kotlinx.android.synthetic.main.activity_detail_task.*
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
 class DetailTaskActivity: AppCompatActivity() {

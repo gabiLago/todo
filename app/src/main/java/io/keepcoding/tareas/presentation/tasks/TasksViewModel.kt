@@ -1,5 +1,6 @@
 package io.keepcoding.tareas.presentation.tasks
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import io.keepcoding.tareas.domain.TaskRepository
 import io.keepcoding.tareas.domain.model.Task
@@ -23,6 +24,7 @@ class TasksViewModel(
 
             val result = withContext(dispatcherFactory.getIO()) { taskRepository.getAll() }
             tasksState.value = result
+            Log.d("STATE", "TasksVM" +  result.toString())
 
             showLoading(false)
         }
