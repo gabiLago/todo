@@ -36,4 +36,8 @@ class FakeRepository : TaskRepository {
         tasks[task.id] = task
     }
 
+    override suspend fun deleteTask(task: Task) {
+        tasks[task.id] = task
+    }
+
 }

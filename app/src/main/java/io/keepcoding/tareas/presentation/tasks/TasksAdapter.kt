@@ -75,7 +75,6 @@ class TasksAdapter(
                     cardIsHighPriority.setImageResource(imgHighPriorityOn)
                 }
 
-
                 taskFinishedCheck.isChecked = task.isFinished
 
                 if (task.isFinished) {

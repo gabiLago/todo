@@ -24,7 +24,6 @@ class TasksViewModel(
 
             val result = withContext(dispatcherFactory.getIO()) { taskRepository.getAll() }
             tasksState.value = result
-            Log.d("STATE", "TasksVM" +  result.toString())
 
             showLoading(false)
         }
