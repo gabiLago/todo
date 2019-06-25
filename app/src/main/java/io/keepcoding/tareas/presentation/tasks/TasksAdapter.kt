@@ -21,7 +21,6 @@ import java.util.*
 
 
 class TasksAdapter(
-
     private val onFinished: (task: Task) -> Unit
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
 
