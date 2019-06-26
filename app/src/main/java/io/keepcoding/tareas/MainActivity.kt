@@ -3,8 +3,11 @@ package io.keepcoding.tareas
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import io.keepcoding.tareas.presentation.add_task.AddTaskActivity
+import io.keepcoding.tareas.presentation.tasks.TasksAdapter
 import io.keepcoding.tareas.presentation.tasks.TasksFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -16,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setUpFragment(savedInstanceState)
         setUpToolbar()
         bindActions()
+
     }
 
     private fun setUpFragment(savedInstanceState: Bundle?) {
@@ -37,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
 
 
 }

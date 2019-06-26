@@ -1,4 +1,4 @@
-package io.keepcoding.tareas.presentation.tasks
+package io.keepcoding.tareas.presentation.detail_task
 
 
 import androidx.lifecycle.MutableLiveData
@@ -6,38 +6,46 @@ import io.keepcoding.tareas.domain.TaskRepository
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.BaseViewModel
 import io.keepcoding.util.DispatcherFactory
+import io.keepcoding.util.Event
+import io.keepcoding.util.extensions.call
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class TasksViewModel(
+
+class DetailTaskViewModel(
+
     private val taskRepository: TaskRepository,
     private val dispatcherFactory: DispatcherFactory
-): BaseViewModel(dispatcherFactory) {
+) : BaseViewModel(dispatcherFactory) {
 
-    val tasksState = MutableLiveData<List<Task>>()
-    val isLoadingState = MutableLiveData<Boolean>()
+    val taskState = MutableLiveData<Task>()
+    val closeAction = MutableLiveData<Event<Unit>>()
 
-    fun loadTasks() {
+
+    fun loadTask(id: Long) {
         launch {
-            showLoading(true)
 
-            val result = withContext(dispatcherFactory.getIO()) { taskRepository.getAll() }
-            tasksState.value = result
+            val result = withContext(dispatcherFactory.getIO()) { taskRepository.getTaskById(id) }
+            taskState.value = result
 
-            showLoading(false)
         }
+
     }
 
     fun toggleFinished(task: Task) {
         val newTask = task.copy(isFinished = !task.isFinished)
-
         launch(dispatcherFactory.getIO()) {
             taskRepository.updateTask(newTask)
         }
     }
 
-    private fun showLoading(isLoading: Boolean) {
-        isLoadingState.value = isLoading
-    }
+    fun deleteTask(task: Task) {
+        launch(dispatcherFactory.getIO()) {
+            taskRepository.deleteTask(task)
 
+        }
+        closeAction.call()
+
+
+    }
 }

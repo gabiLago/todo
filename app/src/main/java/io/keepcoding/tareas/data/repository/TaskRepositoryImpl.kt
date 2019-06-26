@@ -26,4 +26,10 @@ class TaskRepositoryImpl(
     override suspend fun updateTask(task: Task) {
         taskDao.update(taskEntityMapper.map(task))
     }
+
+    override suspend fun deleteTask(task: Task) {
+        taskDao.delete(taskEntityMapper.map(task))
+    }
+
+
 }

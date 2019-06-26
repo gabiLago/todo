@@ -1,6 +1,7 @@
 package io.keepcoding.tareas.presentation.tasks
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
@@ -8,20 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
+import io.keepcoding.tareas.presentation.detail_task.DetailTaskActivity
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.*
-
 
 class TasksAdapter(
     private val onFinished: (task: Task) -> Unit
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,28 +35,36 @@ class TasksAdapter(
         holder.bind(getItem(position))
     }
 
+
+
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        init {
+            itemView.setOnClickListener{
+                val task = getItem(adapterPosition)
+                val intent = Intent(view.context, DetailTaskActivity::class.java)
+                intent.putExtra("id", task.id )
+                itemView.context.startActivity(intent)
+                }
+        }
+
         fun bind(task: Task) {
-            with (itemView) {
+            with(itemView) {
 
                 cardContentText.text = task.content
 
-
-                val createdAtDate = task.createdAt
                 val formatter = DateTimeFormatter
                     .ofPattern("dd-MM-yy")
-                    .withLocale( Locale.FRANCE )
-                    .withZone( ZoneId.of("UTC"))
-                cardCreatedAtDate.text = formatter.format(createdAtDate)
+                    .withZone(ZoneId.of("UTC"))
+
+                cardCreatedAtDate.text = formatter.format(task.createdAt)
 
 
                 val imgHighPriorityOn = R.drawable.ic_star_on
 
-                if(task.isHighPriority) {
-                    cardHighPriority.setImageResource(imgHighPriorityOn)
+                if (task.isHighPriority) {
+                    cardIsHighPriority.setImageResource(imgHighPriorityOn)
                 }
-
 
                 taskFinishedCheck.isChecked = task.isFinished
 
@@ -76,6 +86,8 @@ class TasksAdapter(
 
 
             }
+
+
         }
 
         private fun applyStrikeThrough(view: TextView, content: String, animate: Boolean = false) {
@@ -101,7 +113,7 @@ class TasksAdapter(
             val span = SpannableString(content)
             val spanStrike = StrikethroughSpan()
 
-            if(animate) {
+            if (animate) {
                 ValueAnimator.ofInt(content.length, 0).apply {
                     duration = 300
                     interpolator = FastOutSlowInInterpolator()
@@ -115,6 +127,12 @@ class TasksAdapter(
             }
         }
 
+
     }
+
+    fun refreshDataSet() {
+        notifyDataSetChanged()
+    }
+
 
 }

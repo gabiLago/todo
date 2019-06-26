@@ -1,16 +1,21 @@
 package io.keepcoding.tareas.presentation.tasks
 
+
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
+import io.keepcoding.tareas.presentation.detail_task.DetailTaskActivity
 import io.keepcoding.util.EqualSpacingItemDecoration
 import io.keepcoding.util.extensions.observe
 import io.keepcoding.util.extensions.setVisible
@@ -27,6 +32,8 @@ class TasksFragment : Fragment() {
 
     val tasksViewModel: TasksViewModel by viewModel()
 
+
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
@@ -35,7 +42,10 @@ class TasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycler()
         bindState()
+
+
     }
+
 
     private fun setUpRecycler() {
         with (tasksRecycler) {
@@ -60,6 +70,7 @@ class TasksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         tasksViewModel.loadTasks()
+        adapter.refreshDataSet()
     }
 
     private fun onLoadingState(isLoading: Boolean) {
@@ -69,5 +80,6 @@ class TasksFragment : Fragment() {
     private fun onTasksLoaded(tasks: List<Task>) {
         adapter.submitList(tasks)
     }
+
 
 }
