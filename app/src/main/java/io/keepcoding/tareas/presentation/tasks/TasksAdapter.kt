@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +16,7 @@ import io.keepcoding.tareas.domain.model.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-import java.util.*
+
 
 
 class TasksAdapter(
@@ -136,6 +135,10 @@ class TasksAdapter(
         }
 
 
+    }
+
+    fun refreshDataSet() {
+        notifyDataSetChanged()
     }
 
 

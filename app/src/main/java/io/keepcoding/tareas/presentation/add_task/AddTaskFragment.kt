@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.keepcoding.tareas.R
+import io.keepcoding.tareas.presentation.tasks.TasksAdapter
 import io.keepcoding.util.extensions.consume
 import io.keepcoding.util.extensions.observe
 import kotlinx.android.synthetic.main.fragment_add_task.*
@@ -15,6 +16,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class AddTaskFragment : Fragment() {
 
     val addTaskViewModel: AddTaskViewModel by viewModel()
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_add_task, container, false)

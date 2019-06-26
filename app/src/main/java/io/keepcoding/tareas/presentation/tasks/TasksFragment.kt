@@ -3,6 +3,7 @@ package io.keepcoding.tareas.presentation.tasks
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,6 +78,7 @@ class TasksFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         tasksViewModel.loadTasks()
+        adapter.refreshDataSet()
     }
 
     private fun onLoadingState(isLoading: Boolean) {

@@ -1,13 +1,10 @@
 package io.keepcoding.tareas.presentation.detail_task
 
-import android.content.Context
-import android.content.Intent
-import androidx.core.content.ContextCompat.startActivity
+
 import androidx.lifecycle.MutableLiveData
 import io.keepcoding.tareas.domain.TaskRepository
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.BaseViewModel
-import io.keepcoding.tareas.presentation.tasks.TasksFragment
 import io.keepcoding.util.DispatcherFactory
 import io.keepcoding.util.Event
 import io.keepcoding.util.extensions.call
