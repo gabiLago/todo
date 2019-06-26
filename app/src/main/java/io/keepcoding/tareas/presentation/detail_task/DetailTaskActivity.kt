@@ -30,11 +30,10 @@ class DetailTaskActivity: AppCompatActivity() {
         if (savedInstanceState == null) {
 
             val fragment = DetailTaskFragment()
-            val id = intent.getStringExtra("id")
+            val id = getIntent().getLongExtra("id", 0)
 
             val args = Bundle()
-            args.putString("id", id)
-
+            args.putLong("id", id)
 
             fragment.arguments = args
 

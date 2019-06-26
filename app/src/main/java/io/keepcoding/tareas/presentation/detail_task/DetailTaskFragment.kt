@@ -28,8 +28,8 @@ class DetailTaskFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val id = arguments?.getString("id", "")
-        detailTaskViewModel.loadTask(id!!.toLong())
+        val id = arguments?.getLong("id", 0)
+        detailTaskViewModel.loadTask(id!!)
 
         bindState()
 
