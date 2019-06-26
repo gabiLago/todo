@@ -1,6 +1,7 @@
 package io.keepcoding.tareas.presentation.tasks
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
@@ -8,22 +9,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
+import io.keepcoding.tareas.presentation.detail_task.DetailTaskActivity
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
-
-
 
 class TasksAdapter(
     private val onFinished: (task: Task) -> Unit
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
 
-    lateinit var itemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -35,30 +35,23 @@ class TasksAdapter(
         holder.bind(getItem(position))
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(view: View, task: Task)
-    }
-
-    fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
-        this.itemClickListener = itemClickListener
-    }
 
 
-    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         init {
-            itemView.setOnClickListener(this)
+            itemView.setOnClickListener{
+                val task = getItem(adapterPosition)
+                val intent = Intent(view.context, DetailTaskActivity::class.java)
+                intent.putExtra("id", task.id.toString() )
+                itemView.context.startActivity(intent)
+                }
         }
-
-
-        override fun onClick(view: View) = itemClickListener.onItemClick(itemView, getItem(adapterPosition))
-
 
         fun bind(task: Task) {
             with(itemView) {
 
                 cardContentText.text = task.content
-
 
                 val formatter = DateTimeFormatter
                     .ofPattern("dd-MM-yy")

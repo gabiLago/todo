@@ -32,15 +32,7 @@ class TasksFragment : Fragment() {
 
     val tasksViewModel: TasksViewModel by viewModel()
 
-    private val onItemClickListener = object : TasksAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, task: Task) {
 
-            val intent = Intent(view.context, DetailTaskActivity::class.java)
-            intent.putExtra("id", task.id.toString() )
-            startActivity(intent)
-
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
@@ -50,7 +42,7 @@ class TasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycler()
         bindState()
-        adapter.setOnItemClickListener(onItemClickListener)
+
 
     }
 
