@@ -27,7 +27,6 @@ class AddTaskActivity : AppCompatActivity() {
 
     private fun setUpFragment(savedInstanceState: Bundle?) {
 
-
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

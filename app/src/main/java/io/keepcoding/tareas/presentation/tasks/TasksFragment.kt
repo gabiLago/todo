@@ -1,6 +1,7 @@
 package io.keepcoding.tareas.presentation.tasks
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.task.detail.DetailTaskActivity
+import io.keepcoding.tareas.presentation.task.detail.DetailTaskFragment
 import io.keepcoding.util.EqualSpacingItemDecoration
 import io.keepcoding.util.extensions.observe
 import io.keepcoding.util.extensions.setVisible
@@ -28,6 +30,7 @@ class TasksFragment : Fragment() {
     }
 
     val tasksViewModel: TasksViewModel by viewModel()
+
 
     private val onItemClickListener = object : TasksAdapter.OnTaskClickListener {
         override fun onItemClick(view: View, task: Task) {

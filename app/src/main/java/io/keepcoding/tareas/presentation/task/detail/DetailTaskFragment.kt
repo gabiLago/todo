@@ -2,6 +2,7 @@ package io.keepcoding.tareas.presentation.task.detail
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -114,6 +115,12 @@ class DetailTaskFragment : Fragment() {
                 StrikeThrough.applyStrikeThrough(contentTextView, task.content, animate = true)
             } else {
                 StrikeThrough.removeStrikeThrough(contentTextView, task.content, animate = true)
+            }
+        }
+
+        discardButton.setOnClickListener {
+            activity?.run {
+                finish()
             }
         }
     }
