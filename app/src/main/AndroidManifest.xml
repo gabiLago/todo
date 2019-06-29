@@ -19,8 +19,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.add_task.AddTaskActivity"/>
-        <activity android:name=".presentation.detail_task.DetailTaskActivity"/>
+        <activity android:name="io.keepcoding.tareas.presentation.task.add.AddTaskActivity"/>
+        <activity android:name=".presentation.task.detail.DetailTaskActivity"/>
     </application>
 
 </manifest>

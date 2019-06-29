@@ -8,7 +8,7 @@
         android:layout_height="match_parent">
 
     <TextView
-            android:id="@+id/detailCreatedAt"
+            android:id="@+id/createdAtTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -18,36 +18,40 @@
             tools:text="Fecha"/>
 
     <EditText
-            android:id="@+id/detailContent"
+            android:id="@+id/contentEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/detailCreatedAt"
-            app:layout_constraintStart_toEndOf="@+id/detailIsFinished" android:layout_marginStart="16dp"
-            tools:text="Contenido"/>
+            tools:text="Contenido"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/createdAtTextView" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"/>
+
 
     <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/detailIsFinished" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="16dp"
-            app:layout_constraintTop_toTopOf="@+id/detailContent"
-            app:layout_constraintBottom_toBottomOf="@+id/detailContent"/>
-
-    <ImageView
-            android:id="@+id/detailIsHighPriority"
+            android:text="@string/priority_task"
+            android:id="@+id/isHighPriorityCheckbox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@+id/contentEditText" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp" android:layout_marginEnd="16dp"/>
+
+    <ImageView
+            android:id="@+id/isHighPriorityIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:contentDescription="@string/high_priority"
-
-    />
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/isHighPriorityCheckbox"
+            tools:src="@drawable/ic_star_on" app:layout_constraintVertical_bias="0.136"/>
 
     <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/discardTask"
+            android:id="@+id/discardTaskButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -62,7 +66,7 @@
     />
 
     <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/saveTask"
+            android:id="@+id/saveTaskButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"

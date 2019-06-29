@@ -1,17 +1,21 @@
-package io.keepcoding.tareas.presentation.detail_task
+package io.keepcoding.tareas.presentation.task.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import io.keepcoding.tareas.R
+import io.keepcoding.tareas.domain.model.Task
+import io.keepcoding.tareas.presentation.task.edit.EditTaskFragment
 import kotlinx.android.synthetic.main.activity_main.toolbar
 
-class DetailTaskActivity: AppCompatActivity() {
+class DetailTaskActivity: AppCompatActivity(),
+    DetailTaskFragment.OnEditSelected {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_task)
+        setContentView(R.layout.activity_task)
         setUpToolbar()
         setUpFragment(savedInstanceState)
 
@@ -52,6 +56,22 @@ class DetailTaskActivity: AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onEditSelected(task: Task) {
+        val fragment = EditTaskFragment()
+
+        val args = Bundle()
+        args.putLong("id", task.id)
+
+        fragment.arguments = args
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer,fragment)
+            .addToBackStack(null)
+            .commit()
+
+        Log.d("Click", task.toString())
     }
 
 }

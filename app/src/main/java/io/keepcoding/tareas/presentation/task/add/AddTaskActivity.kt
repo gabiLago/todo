@@ -1,4 +1,4 @@
-package io.keepcoding.tareas.presentation.add_task
+package io.keepcoding.tareas.presentation.task.add
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,7 +11,7 @@ class AddTaskActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_task)
+        setContentView(R.layout.activity_task)
         setUpToolbar()
         setUpFragment(savedInstanceState)
     }
@@ -26,6 +26,8 @@ class AddTaskActivity : AppCompatActivity() {
     }
 
     private fun setUpFragment(savedInstanceState: Bundle?) {
+
+
         if (savedInstanceState == null) {
             supportFragmentManager
                 .beginTransaction()

@@ -6,7 +6,7 @@
         android:layout_height="match_parent">
 
     <EditText
-            android:id="@+id/taskContent"
+            android:id="@+id/contentTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -27,11 +27,11 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     <CheckBox
             android:id="@+id/isPriorityCheckBox"
-            android:text="Marcar como Tarea Prioritaria"
+            android:text="@string/priority_task"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/taskContent"/>
+            app:layout_constraintTop_toBottomOf="@+id/contentTextView"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

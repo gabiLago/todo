@@ -3,4 +3,5 @@
     <string name="add_task_title">Añadir tarea</string>
     <string name="detail_task_title">Detalle de la tarea</string>
     <string name="high_priority">High Priority</string>
+    <string name="priority_task">Marcar como Tarea Prioritaria</string>
 </resources>

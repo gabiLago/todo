@@ -1,4 +1,4 @@
-package io.keepcoding.tareas.presentation.add_task
+package io.keepcoding.tareas.presentation.task.add
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,16 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.keepcoding.tareas.R
-import io.keepcoding.tareas.presentation.tasks.TasksAdapter
+import io.keepcoding.tareas.presentation.task.TaskViewModel
 import io.keepcoding.util.extensions.consume
 import io.keepcoding.util.extensions.observe
 import kotlinx.android.synthetic.main.fragment_add_task.*
-import kotlinx.android.synthetic.main.item_task.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddTaskFragment : Fragment() {
 
-    val addTaskViewModel: AddTaskViewModel by viewModel()
+    val taskViewModel: TaskViewModel by viewModel()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,14 +29,14 @@ class AddTaskFragment : Fragment() {
 
     private fun bindActions() {
         saveButton.setOnClickListener {
-            val taskContent = taskContent.text.toString()
+            val taskContent = contentTextView.text.toString()
             val isHighPriority = isPriorityCheckBox.isChecked
-            addTaskViewModel.save(taskContent, isHighPriority)
+            taskViewModel.save(taskContent, isHighPriority)
         }
     }
 
     private fun bindEvents() {
-        with (addTaskViewModel) {
+        with (taskViewModel) {
             observe(closeAction) {
                 it.consume {
                     onClose()

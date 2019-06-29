@@ -3,19 +3,16 @@ package io.keepcoding.tareas.presentation.tasks
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
-import io.keepcoding.tareas.presentation.detail_task.DetailTaskActivity
+import io.keepcoding.tareas.presentation.task.detail.DetailTaskActivity
 import io.keepcoding.util.EqualSpacingItemDecoration
 import io.keepcoding.util.extensions.observe
 import io.keepcoding.util.extensions.setVisible
@@ -32,6 +29,13 @@ class TasksFragment : Fragment() {
 
     val tasksViewModel: TasksViewModel by viewModel()
 
+    private val onItemClickListener = object : TasksAdapter.OnTaskClickListener {
+        override fun onItemClick(view: View, task: Task) {
+            val intent = Intent(view.context, DetailTaskActivity::class.java)
+            intent.putExtra("id", task.id )
+            startActivity(intent)
+        }
+    }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,8 +46,7 @@ class TasksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUpRecycler()
         bindState()
-
-
+        adapter.setOnItemClickListener(onItemClickListener)
     }
 
 
@@ -80,6 +83,5 @@ class TasksFragment : Fragment() {
     private fun onTasksLoaded(tasks: List<Task>) {
         adapter.submitList(tasks)
     }
-
 
 }

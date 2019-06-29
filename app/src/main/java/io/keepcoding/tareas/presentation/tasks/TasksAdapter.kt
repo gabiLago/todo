@@ -1,7 +1,6 @@
 package io.keepcoding.tareas.presentation.tasks
 
 import android.animation.ValueAnimator
-import android.content.Intent
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StrikethroughSpan
@@ -9,13 +8,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
-import io.keepcoding.tareas.presentation.detail_task.DetailTaskActivity
+import io.keepcoding.util.StrikeThrough
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -23,6 +21,9 @@ import org.threeten.bp.format.DateTimeFormatter
 class TasksAdapter(
     private val onFinished: (task: Task) -> Unit
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
+
+    lateinit var taskClickListener: OnTaskClickListener
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -35,18 +36,24 @@ class TasksAdapter(
         holder.bind(getItem(position))
     }
 
+    interface OnTaskClickListener {
+        fun onItemClick(view: View, task: Task)
+    }
+
+    fun setOnItemClickListener(itemClickListener: OnTaskClickListener) {
+        this.taskClickListener = itemClickListener
+    }
 
 
-    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+
 
         init {
-            itemView.setOnClickListener{
-                val task = getItem(adapterPosition)
-                val intent = Intent(view.context, DetailTaskActivity::class.java)
-                intent.putExtra("id", task.id )
-                itemView.context.startActivity(intent)
-                }
+            itemView.setOnClickListener(this)
         }
+
+
+        override fun onClick(view: View) = taskClickListener.onItemClick(itemView, getItem(adapterPosition))
 
         fun bind(task: Task) {
             with(itemView) {
@@ -59,80 +66,48 @@ class TasksAdapter(
 
                 cardCreatedAtDate.text = formatter.format(task.createdAt)
 
-
-                val imgHighPriorityOn = R.drawable.ic_star_on
-
-                if (task.isHighPriority) {
-                    cardIsHighPriority.setImageResource(imgHighPriorityOn)
-                }
+                prioritySwitcher(task.isHighPriority, this)
 
                 taskFinishedCheck.isChecked = task.isFinished
 
                 if (task.isFinished) {
-                    applyStrikeThrough(cardContentText, task.content)
+                    StrikeThrough.applyStrikeThrough(cardContentText, task.content)
                 } else {
-                    removeStrikeThrough(cardContentText, task.content)
+                    StrikeThrough.removeStrikeThrough(cardContentText, task.content)
                 }
 
                 taskFinishedCheck.setOnClickListener {
                     onFinished(task)
 
                     if (taskFinishedCheck.isChecked) {
-                        applyStrikeThrough(cardContentText, task.content, animate = true)
+                        StrikeThrough.applyStrikeThrough(cardContentText, task.content, animate = true)
                     } else {
-                        removeStrikeThrough(cardContentText, task.content, animate = true)
+                        StrikeThrough.removeStrikeThrough(cardContentText, task.content, animate = true)
                     }
                 }
 
-
             }
 
 
         }
 
-        private fun applyStrikeThrough(view: TextView, content: String, animate: Boolean = false) {
-            val span = SpannableString(content)
-            val spanStrike = StrikethroughSpan()
 
-            if (animate) {
-                ValueAnimator.ofInt(content.length).apply {
-                    duration = 300
-                    interpolator = FastOutSlowInInterpolator()
-                    addUpdateListener {
-                        span.setSpan(spanStrike, 0, it.animatedValue as Int, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        view.text = span
-                    }
-                }.start()
-            } else {
-                span.setSpan(spanStrike, 0, content.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                view.text = span
-            }
-        }
-
-        private fun removeStrikeThrough(view: TextView, content: String, animate: Boolean = false) {
-            val span = SpannableString(content)
-            val spanStrike = StrikethroughSpan()
-
-            if (animate) {
-                ValueAnimator.ofInt(content.length, 0).apply {
-                    duration = 300
-                    interpolator = FastOutSlowInInterpolator()
-                    addUpdateListener {
-                        span.setSpan(spanStrike, 0, it.animatedValue as Int, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-                        view.text = span
-                    }
-                }.start()
-            } else {
-                view.text = content
-            }
-        }
 
 
     }
+
+
 
     fun refreshDataSet() {
         notifyDataSetChanged()
     }
 
+    private fun prioritySwitcher(state: Boolean, view: View){
+        if (state) {
+            view.cardIsHighPriority.setImageResource(R.drawable.ic_star_on)
+        }  else {
+            view.cardIsHighPriority.setImageDrawable(null)
+        }
+    }
 
 }
