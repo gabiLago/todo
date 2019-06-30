@@ -31,13 +31,13 @@ This is an exercice for the 8th Mobile Development Bootcamp from KeepCoding.
 
 ## DOUBTS AND CONCERNS
 
-1. There is a buggy behaviour on the RecylcerView when a Task is added. Coming from the AddTask View, the new card doubles the distance from the previous card. Once the view is reloaded distances became normal. Is it the itemDecoration being called twice on adding the task?
+1. There is a buggy behaviour on the RecyclerView when a Task is added. Coming from the AddTask View, the new card doubles padding top distance from the previous card. Once the view is reloaded distances became normal. Is it the itemDecoration being called twice on adding the task?
 
 2. I´ve created a singleton for the strikesThrough effect for onFinised task and to show/hide isHighPriority task. Not sure if this a good practice???
 
 3. The way I use onClickListener on the adapter is the only one I got it working. But I´m not quite comfortable with it... at least it looks verbose and ugly... but couldn´t find a better approach
 
-4. When an item is deleted from the list, the whole list is refreshed. I tried to delete from the adapter just the item, but couldn´t make it. Not sure how the list where and item position should be deleted is being sent from fragment to adapter.
+4. When an item is deleted from the list, the whole list is refreshed. I tried to delete from the adapter just the item, but couldn´t make it. I´m not sure how the list where an item position should be deleted is being sent from the fragment to the adapter.
 
 ```bash
 implementation fileTree(dir: 'libs', include: ['*.jar'])
