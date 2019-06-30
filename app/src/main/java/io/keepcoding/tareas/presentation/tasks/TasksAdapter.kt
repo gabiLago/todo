@@ -1,19 +1,18 @@
 package io.keepcoding.tareas.presentation.tasks
 
-import android.animation.ValueAnimator
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.StrikethroughSpan
+
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
-import io.keepcoding.util.StrikeThrough
+import io.keepcoding.util.TasksViewUtils
+import io.keepcoding.util.extensions.setVisible
+import kotlinx.android.synthetic.main.item_task_high_priority.view.*
+import kotlinx.android.synthetic.main.item_task_date.view.*
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -23,7 +22,8 @@ class TasksAdapter(
 ) : ListAdapter<Task, TasksAdapter.TaskViewHolder>(TaskDiffUtil()) {
 
     lateinit var taskClickListener: OnTaskClickListener
-
+    lateinit var editClickListener: OnEditClickListener
+    lateinit var deleteClickListener: OnDeleteClickListener
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -36,13 +36,7 @@ class TasksAdapter(
         holder.bind(getItem(position))
     }
 
-    interface OnTaskClickListener {
-        fun onItemClick(view: View, task: Task)
-    }
 
-    fun setOnItemClickListener(itemClickListener: OnTaskClickListener) {
-        this.taskClickListener = itemClickListener
-    }
 
 
     inner class TaskViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
@@ -51,7 +45,6 @@ class TasksAdapter(
         init {
             itemView.setOnClickListener(this)
         }
-
 
         override fun onClick(view: View) = taskClickListener.onItemClick(itemView, getItem(adapterPosition))
 
@@ -64,50 +57,69 @@ class TasksAdapter(
                     .ofPattern("dd-MM-yy")
                     .withZone(ZoneId.of("UTC"))
 
-                cardCreatedAtDate.text = formatter.format(task.createdAt)
+                createdAtDate.text = formatter.format(task.createdAt)
 
-                prioritySwitcher(task.isHighPriority, this)
+                TasksViewUtils.prioritySwitcher(task.isHighPriority, this)
 
                 taskFinishedCheck.isChecked = task.isFinished
 
                 if (task.isFinished) {
-                    StrikeThrough.applyStrikeThrough(cardContentText, task.content)
+                    TasksViewUtils.applyStrikeThrough(cardContentText, task.content)
                 } else {
-                    StrikeThrough.removeStrikeThrough(cardContentText, task.content)
+                    TasksViewUtils.removeStrikeThrough(cardContentText, task.content)
                 }
 
                 taskFinishedCheck.setOnClickListener {
                     onFinished(task)
 
                     if (taskFinishedCheck.isChecked) {
-                        StrikeThrough.applyStrikeThrough(cardContentText, task.content, animate = true)
+                        TasksViewUtils.applyStrikeThrough(cardContentText, task.content, animate = true)
                     } else {
-                        StrikeThrough.removeStrikeThrough(cardContentText, task.content, animate = true)
+                        TasksViewUtils.removeStrikeThrough(cardContentText, task.content, animate = true)
                     }
+                }
+
+                editTask.setOnClickListener{
+                    editClickListener.onEditClick(it, task)
+                }
+
+                deleteTask.setOnClickListener{
+                    deleteClickListener.onDeleteClick(it, task)
                 }
 
             }
 
-
         }
 
-
-
-
     }
-
 
 
     fun refreshDataSet() {
         notifyDataSetChanged()
     }
 
-    private fun prioritySwitcher(state: Boolean, view: View){
-        if (state) {
-            view.cardIsHighPriority.setImageResource(R.drawable.ic_star_on)
-        }  else {
-            view.cardIsHighPriority.setImageDrawable(null)
-        }
+    interface OnTaskClickListener {
+        fun onItemClick(view: View, task: Task)
+    }
+
+    interface OnEditClickListener {
+        fun onEditClick(view: View, task: Task)
+    }
+
+    interface OnDeleteClickListener {
+        fun onDeleteClick(view: View, task: Task)
+    }
+
+    fun setOnItemClickListener(itemClickListener: OnTaskClickListener) {
+        this.taskClickListener = itemClickListener
+    }
+
+    fun setOnEditClickListener(editClickListener: OnEditClickListener) {
+        this.editClickListener = editClickListener
+    }
+
+    fun setOnDeleteClickListener(deleteClickListener: OnDeleteClickListener) {
+        this.deleteClickListener = deleteClickListener
     }
 
 }

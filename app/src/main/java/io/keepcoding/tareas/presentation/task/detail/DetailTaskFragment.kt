@@ -2,7 +2,6 @@ package io.keepcoding.tareas.presentation.task.detail
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,11 @@ import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.task.TaskViewModel
-import io.keepcoding.util.StrikeThrough
+import io.keepcoding.util.TasksViewUtils
 import io.keepcoding.util.extensions.consume
 import io.keepcoding.util.extensions.observe
 import kotlinx.android.synthetic.main.fragment_detail_task.*
+import kotlinx.android.synthetic.main.item_task_date.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -71,18 +71,18 @@ class DetailTaskFragment : Fragment() {
             .withZone(ZoneId.of("UTC"))
 
         with(task) {
-            createdAtTextView.text = formatter.format(createdAt)
+            createdAtDate.text = formatter.format(createdAt)
             contentTextView.text = content
             isFinishedCheckbox.isChecked = isFinished
         }
 
         if (task.isFinished) {
-            StrikeThrough.applyStrikeThrough(contentTextView, task.content)
+            TasksViewUtils.applyStrikeThrough(contentTextView, task.content)
         } else {
-            StrikeThrough.removeStrikeThrough(contentTextView, task.content)
+            TasksViewUtils.removeStrikeThrough(contentTextView, task.content)
         }
 
-        prioritySwitcher(task.isHighPriority)
+        TasksViewUtils.prioritySwitcher(task.isHighPriority, this.view!!)
 
     }
 
@@ -112,9 +112,9 @@ class DetailTaskFragment : Fragment() {
             taskViewModel.toggleFinished(task)
 
             if (isFinishedCheckbox.isChecked) {
-                StrikeThrough.applyStrikeThrough(contentTextView, task.content, animate = true)
+                TasksViewUtils.applyStrikeThrough(contentTextView, task.content, animate = true)
             } else {
-                StrikeThrough.removeStrikeThrough(contentTextView, task.content, animate = true)
+                TasksViewUtils.removeStrikeThrough(contentTextView, task.content, animate = true)
             }
         }
 
@@ -138,14 +138,6 @@ class DetailTaskFragment : Fragment() {
 
     private fun onClose() {
         requireActivity().finish()
-    }
-
-    private fun prioritySwitcher(state: Boolean){
-        if (state) {
-            isHighPriorityCheckbox.setImageResource(R.drawable.ic_star_on)
-        }  else {
-            isHighPriorityCheckbox.setImageDrawable(null)
-        }
     }
 
     interface OnEditSelected {

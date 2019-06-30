@@ -10,6 +10,7 @@ import io.keepcoding.tareas.presentation.task.TaskViewModel
 import io.keepcoding.tareas.presentation.tasks.TasksViewModel
 import io.keepcoding.util.AppDispatcherFactory
 import io.keepcoding.util.DispatcherFactory
+import io.keepcoding.util.TasksViewUtils
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -51,4 +52,5 @@ val appModule = module {
     viewModel {
         TaskViewModel(get(), get())
     }
+
 }

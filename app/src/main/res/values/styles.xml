@@ -29,4 +29,9 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="HighPriority">
+        <item name="android:textColor">#F0C000</item>
+    </style>
+
+
 </resources>

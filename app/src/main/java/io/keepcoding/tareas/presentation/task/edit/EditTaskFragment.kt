@@ -9,9 +9,10 @@ import androidx.fragment.app.Fragment
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.task.TaskViewModel
-import io.keepcoding.util.StrikeThrough
+import io.keepcoding.util.TasksViewUtils
 import io.keepcoding.util.extensions.observe
 import kotlinx.android.synthetic.main.fragment_edit_task.*
+import kotlinx.android.synthetic.main.item_task_date.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -55,12 +56,12 @@ class EditTaskFragment : Fragment() {
             .withZone(ZoneId.of("UTC"))
 
         with(task) {
-            createdAtTextView.text = formatter.format(createdAt)
+            createdAtDate.text = formatter.format(createdAt)
             contentEditText.setText(content)
             isHighPriorityCheckbox.isChecked = isHighPriority
         }
 
-        prioritySwitcher(isHighPriorityCheckbox.isChecked)
+        TasksViewUtils.prioritySwitcher(isHighPriorityCheckbox.isChecked, this.view!!)
 
     }
 
@@ -86,16 +87,10 @@ class EditTaskFragment : Fragment() {
 
 
         isHighPriorityCheckbox.setOnClickListener {
-            prioritySwitcher(isHighPriorityCheckbox.isChecked)
+            TasksViewUtils.prioritySwitcher(isHighPriorityCheckbox.isChecked, this.view!!)
         }
     }
 
-    private fun prioritySwitcher(state: Boolean){
-        if (state) {
-            isHighPriorityIcon.setImageResource(R.drawable.ic_star_on)
-        } else {
-            isHighPriorityIcon.setImageDrawable(null)
-        }
-    }
+
 
 }

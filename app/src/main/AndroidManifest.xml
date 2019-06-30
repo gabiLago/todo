@@ -21,6 +21,7 @@
 
         <activity android:name="io.keepcoding.tareas.presentation.task.add.AddTaskActivity"/>
         <activity android:name=".presentation.task.detail.DetailTaskActivity"/>
+        <activity android:name=".presentation.task.edit.EditTaskActivity"/>
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@ import io.keepcoding.tareas.domain.TaskRepository
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.BaseViewModel
 import io.keepcoding.util.DispatcherFactory
+import io.keepcoding.util.extensions.call
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -16,6 +17,7 @@ class TasksViewModel(
 
     val tasksState = MutableLiveData<List<Task>>()
     val isLoadingState = MutableLiveData<Boolean>()
+    val deleteState = MutableLiveData<Boolean>()
 
     fun loadTasks() {
         launch {
@@ -28,6 +30,17 @@ class TasksViewModel(
         }
     }
 
+    fun deleteTask(task: Task) {
+        launch {
+            isDeleting(true)
+
+            withContext(dispatcherFactory.getIO()){ taskRepository.deleteTask(task) }
+
+        }
+    }
+
+
+
     fun toggleFinished(task: Task) {
         val newTask = task.copy(isFinished = !task.isFinished)
 
@@ -38,6 +51,10 @@ class TasksViewModel(
 
     private fun showLoading(isLoading: Boolean) {
         isLoadingState.value = isLoading
+    }
+
+    private fun isDeleting(isDeleting: Boolean) {
+        deleteState.value = isDeleting
     }
 
 

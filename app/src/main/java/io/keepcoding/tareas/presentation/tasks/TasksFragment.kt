@@ -4,17 +4,21 @@ package io.keepcoding.tareas.presentation.tasks
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import io.keepcoding.tareas.R
 import io.keepcoding.tareas.domain.model.Task
 import io.keepcoding.tareas.presentation.task.detail.DetailTaskActivity
 import io.keepcoding.tareas.presentation.task.detail.DetailTaskFragment
+import io.keepcoding.tareas.presentation.task.edit.EditTaskActivity
 import io.keepcoding.util.EqualSpacingItemDecoration
 import io.keepcoding.util.extensions.observe
 import io.keepcoding.util.extensions.setVisible
@@ -40,6 +44,28 @@ class TasksFragment : Fragment() {
         }
     }
 
+    private val onEditClickListener = object : TasksAdapter.OnEditClickListener {
+        override fun onEditClick(view: View, task: Task) {
+            val intent = Intent(view.context, EditTaskActivity::class.java)
+            intent.putExtra("id", task.id )
+            startActivity(intent)
+        }
+    }
+
+    private val onDeleteClickListener = object : TasksAdapter.OnDeleteClickListener {
+        override fun onDeleteClick(view: View, task: Task) {
+
+
+
+            Snackbar.make(view, "Vas a borrar una tarea", Snackbar.LENGTH_LONG)
+                .setAction("CONFIRMAR") {
+                    tasksViewModel.deleteTask(task)
+                    Toast.makeText(view.context, "Tarea borrada", Toast.LENGTH_LONG).show()
+                }
+                .show()
+        }
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tasks, container, false)
@@ -50,6 +76,8 @@ class TasksFragment : Fragment() {
         setUpRecycler()
         bindState()
         adapter.setOnItemClickListener(onItemClickListener)
+        adapter.setOnEditClickListener(onEditClickListener)
+        adapter.setOnDeleteClickListener(onDeleteClickListener)
     }
 
 
@@ -70,6 +98,11 @@ class TasksFragment : Fragment() {
             observe(tasksState) {
                 onTasksLoaded(it)
             }
+
+            observe(deleteState){
+                deleteTask()
+            }
+
         }
     }
 
@@ -87,4 +120,8 @@ class TasksFragment : Fragment() {
         adapter.submitList(tasks)
     }
 
+    private fun deleteTask() {
+        tasksViewModel.loadTasks()
+        adapter.refreshDataSet()
+    }
 }

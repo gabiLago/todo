@@ -4,7 +4,8 @@
 ![Swift Version](https://img.shields.io/badge/kotlin-1.3.31-green.svg)
 
 ## DESCRIPTION
-### TODO is an app to note down and track todo tasks.
+### TODO is an app using Kotlin Coroutines with LiveData, Room for database and Koin for depencies injection.
+### It basically allows to note down and track todo tasks.
 ### Task items will have a content and a date. It can be set as prioritary and as finished.
 ### Items can be added, edited and deleted.
 
@@ -13,17 +14,15 @@
 This is an exercice for the 8th Mobile Development Bootcamp from KeepCoding.
 
 1. **Add missing fields**
-	* Añadir los campos que faltan a cada card de la tarea: ​los campos definitivos deben ser ​contenido​, ​fecha​, si está ​terminada​ la tarea y si es ​prioritaria​ la tarea.
+	* Done.
 2. **Develop activity detail**
-	* donde se podrá apreciar los detalles de cada card pero de manera individual y con un formato y diseño a escoger por el alumno; aquel que éste crea idóneo para la intuitividad y el desempeño de esta funcionalidad. Esta pantalla deberá contener la misma información que cada tarea de la lista: contenido​, ​fecha​, si está ​terminada​, si es ​prioritaria​.
+	* Done​.
 3. **Add an action to delete a task**
 	* a. Obligatorio desde la lista
-	* b. Opcional desde el detalle.
+	* b. Done
 4. **Añadir una acción de editar una tarea**
 	* a. Obligatorio desde la lista
-	* b. Opcional desde el detalle.
-5. **Implementar Dagger en lugar de Koin**		 
-6. **Añadir subtareas dentro de la ventana de detalle de una tarea**	 
+	* b. Done	 
 	
 ## COMMENTS
 * I´ve used git-flow to develop the project.
